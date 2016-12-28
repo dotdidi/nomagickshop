@@ -8,6 +8,19 @@ end
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.0.1'
+# Use ActiveModel has_secure_pass
+gem 'bcrypt', '3.1.11'
+# Use for generate fake data for test purpose
+gem 'faker'
+# Basic image upload
+gem 'carrierwave', '0.11.2'
+gem 'mini_magick', '4.5.1'
+gem 'fog', '1.38.0'
+# Use for pagination
+gem 'will_paginate', '3.1.0'
+# For making things look a bit prettier
+gem 'bootstrap-sass', '3.3.6'
+gem 'bootstrap-will_paginate', '0.0.10'
 # Use Puma as the app server
 gem 'puma', '~> 3.0'
 # Use SCSS for stylesheets
