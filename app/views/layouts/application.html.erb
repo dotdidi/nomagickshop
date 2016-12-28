@@ -1,14 +1,19 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Onlineshop</title>
+    <title>NoMagickShop</title>
     <%= csrf_meta_tags %>
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
-
   <body>
-    <%= yield %>
+    <%= render 'layouts/header' %>
+    <div class="container">
+      <h1><%= yield(:title) %></h1>
+      <%= yield %>
+      <%= link_to "Back", request.referer.present? ? request.referer : root_path %>
+      <%= render 'layouts/footer' %>
+    </div>
   </body>
 </html>
