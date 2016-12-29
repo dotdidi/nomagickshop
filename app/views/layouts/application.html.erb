@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>NoMagickShop</title>
+    <title><%= full_title(yield(:title))%></title>
     <%= csrf_meta_tags %>
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
@@ -12,7 +12,9 @@
     <div class="container">
       <h1><%= yield(:title) %></h1>
       <%= yield %>
-      <%= link_to "Back", request.referer.present? ? request.referer : root_path %>
+      <div class="col-md-4">
+        <%= link_to "Back", request.referer.present? ? request.referer : root_path %>
+      </div>
       <%= render 'layouts/footer' %>
     </div>
   </body>
