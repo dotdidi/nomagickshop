@@ -1,0 +1,20 @@
+<% provide(:title, @product.title) %>
+
+<div class ="row">
+  <aside class="col-md-4">
+    <section>
+      <%= image_tag(@product.img_url, class: 'display') %>
+    </section>
+  </aside>
+  <div class="col-md-8">
+    <section class="stats">
+      <p>
+        <h3><strong>Summary</strong></h3>
+        <%= @product.desc %>
+      </p>
+      <p>
+        <h4> <%= number_to_currency(@product.price.to_f, delimiter: '') %> </h4>
+      </p>
+    </section>
+  </div>
+</div>

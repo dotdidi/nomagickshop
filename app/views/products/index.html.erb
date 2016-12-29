@@ -1,0 +1,30 @@
+<% provide(:title, "Showcase") %>
+<div class="container">
+  <table class="table table-striped">
+    <% @products.each do |product| %>
+      <tr> 
+        <td><%= image_tag(product.img_url,class: 'image') %></td>
+        <td>
+          <div class="row col-sm-4">
+            <h3> <%= product.title %> </h3>
+          </div>
+          <div class="row col-sm-6">
+            <small>
+              <%= truncate(product.desc, :length => 85, :separator => ' ' )%>
+            </small> 
+          </div>
+          <div class="row col-sm-2">
+            <h4>For <%= number_to_currency(product.price.to_f, delimiter: '' )%></h4>
+          </div>
+        </td>
+        <td> 
+          <%= link_to 'Show', product %></br>
+          <%= link_to 'Edit', edit_product_path(product) %></br>
+          <%= link_to 'Delete', product, method: :delete, data: { confirm: 'Are you sure?' } %>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+<%= link_to 'New Product', new_product_path %>
+</div>
+

@@ -1,0 +1,26 @@
+<%= form_for(product) do |p| %>
+  <% if product.errors.any? %>
+    <div id="error_explanation">
+      <h4>Found <%= pluralize(product.errors.count, "error") %> in the form you submitted</h4>
+      <ul>
+        <% product.errors.full_messages.each do |m| %>
+          <li><%= m %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= p.label :title %>
+  <%= p.text_field :title, class: 'form-control' %>
+
+  <%= p.label :description %>
+  <%= p.text_area :desc, class: 'form-control' %>
+
+  <%= p.label :image_url %>
+  <%= p.text_field :img_url, class: 'form-control' %>
+
+  <%= p.label :price %>
+  <%= p.number_field :price, class: 'form-control', step: :any, value: number_to_currency(p.object.price.to_f, delimiter: '', unit: '$') %>
+
+  <%= p.submit %>
+<% end %>

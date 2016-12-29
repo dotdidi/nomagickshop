@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+titan:
+  title: Titan Fall 
+  desc: Call down your Titan and get ready for an exhilarating first-person shooter
+  img_url: https://key4co.in/wp-content/uploads/2016/10/Titanfall-2-Cover.jpg
+  price: 31.90
+
+ffxv:
+  title: Final Fantasy XV
+  desc: Final Fantasy XV is an open world action role-playing video game developed and published by Square Enix for the PlayStation 4 and Xbox One home consoles.
+  img_url: https://images-na.ssl-images-amazon.com/images/I/81WyEyShisL._AC_SL1500_.jpg
+  price: 39.00
