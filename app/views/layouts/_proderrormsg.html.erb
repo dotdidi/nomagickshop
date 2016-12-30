@@ -1,4 +1,4 @@
-  <% if product.errors.any? %>
+  <% if @product.errors.any? %>
     <div id="error_explanation">
       <h4>Found <%= pluralize(product.errors.count, "error") %> in the form you submitted</h4>
       <ul>

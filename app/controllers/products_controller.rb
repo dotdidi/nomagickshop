@@ -1,7 +1,7 @@
 require 'users_helper'
 
 class ProductsController < ApplicationController
-  before_action :set_user, except: [:show, :index, :update]
+  # before_action :set_user, except: [:show, :index, :update]
   before_action :admin_user, except: [:show, :index]
 
   def index
@@ -52,7 +52,13 @@ class ProductsController < ApplicationController
   end
 
   def admin_user
-    redirect_to(users_url) unless current_user.admin?
+    if current_user.present? do
+      redirect_to(welcome_url) unless current_user.admin? 
+      flash[:danger] = "You are not authorized to do this actions"
+    end
+    else
+      redirect_to(welcome_url)
+      flash[:danger] = "You are not authorized to do this actions"
+    end
   end
-
 end
