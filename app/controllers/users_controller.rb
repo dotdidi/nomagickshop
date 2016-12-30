@@ -1,10 +1,9 @@
-require 'users_helper'
 
 class UsersController < ApplicationController
+  before_action :set_user, except:[:new, :create, :destroy]
   before_action :logged_in_user, except: [:new, :create]
 
   def index
-    @user = User.find_by(params[:id])
     @product = Product.find_by(params[:id])
   end
 
@@ -12,8 +11,11 @@ class UsersController < ApplicationController
     @user = User.new
   end
 
+  def show
+
+  end
+
   def edit
-    @user = User.find_by(params[:id])
   end
 
   def create
@@ -28,7 +30,6 @@ class UsersController < ApplicationController
   end
 
   def update
-    @user = User.find_by(params[:id])
     if @user.update_attributes(user_params)
       flash[:success] = "Profile updated."
       redirect_to @user
@@ -55,5 +56,9 @@ class UsersController < ApplicationController
       flash[:danger] = "Please log in."
       redirect_to '#'
     end
+  end
+
+  def set_user
+    @user = User.find_by(params[:id])
   end
 end

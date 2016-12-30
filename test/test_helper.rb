@@ -7,6 +7,7 @@ class ActiveSupport::TestCase
   fixtures :all
   include ApplicationHelper
   include SessionsHelper
+  include UsersHelper
 
   # Add more helper methods to be used by all tests here...
 end

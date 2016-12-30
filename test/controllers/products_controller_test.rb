@@ -16,13 +16,15 @@ class ProductsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should get new" do
-    log_in @user
+    get welcome_url
+    post welcome_url, params: { session: {username: @user.username, password: 'password' }}
     get new_product_url
     assert_response :success, "New page can not be accessed"
   end
 
   test "should get edit" do
-    log_in @user
+    get welcome_url
+    post welcome_url, params: { session: {username: @user.username, password: 'password' }}
     get edit_product_url(@product)
     assert_response :success, "Edit page can not be accessed"
   end
@@ -33,7 +35,8 @@ class ProductsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "can create a Product" do
-    log_in @user
+    get welcome_url
+    post welcome_url, params: { session: {username: @user.username, password: 'password' }}
     get new_product_url
     assert_response :success
 
@@ -45,7 +48,20 @@ class ProductsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should be able to update product" do
+    get welcome_url
+    post welcome_url, params: { session: {username: @user.username, password: 'password' }}
     patch product_url(@product), params: { product: @update}
     assert_redirected_to product_url(@product), "Product can not be updated"
   end
+
+  test "redirecting unauthorized personel to access some place" do
+    delete bye_url
+    get new_product_url
+    assert_response :redirect, "Non-admin can access new product"
+    get edit_product_url(@product)
+    assert_response :redirect, "Non-admin can access edit product"
+    patch product_url(@product), params: {product: @update}
+    assert_response :redirect, "Non-admin can update the product"
+  end
+
 end
