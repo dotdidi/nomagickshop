@@ -13,7 +13,7 @@
       <h1><%= yield(:title) %></h1>
       <%= yield %>
       <div class="col-md-4">
-        <%= link_to "Back", request.referer.present? ? request.referer : root_path %>
+        <%= link_to "Back", request.referer.present? ? request.referer : '#' %>
       </div>
       <%= render 'layouts/footer' %>
     </div>

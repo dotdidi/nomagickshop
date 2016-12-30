@@ -2,24 +2,28 @@ require 'test_helper'
 
 class ProductsControllerTest < ActionDispatch::IntegrationTest
   def setup
+    @user = users(:didi)
     @product = products(:titan)
     @update = { title: "Yahoo", 
                desc: "successfully create a product", 
                img_url: "https://s.yimg.com/dh/ap/default/130909/y_200_a.png", 
                price: "38.92" } 
   end
+
   test "should get index" do
-    get products_index_url
+    get products_url
     assert_response :success, "Root can not be accessed"
   end
 
   test "should get new" do
-    get products_new_url
+    log_in @user
+    get new_product_url
     assert_response :success, "New page can not be accessed"
   end
 
   test "should get edit" do
-    get products_edit_url
+    log_in @user
+    get edit_product_url(@product)
     assert_response :success, "Edit page can not be accessed"
   end
 
@@ -29,7 +33,8 @@ class ProductsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "can create a Product" do
-    get products_new_url
+    log_in @user
+    get new_product_url
     assert_response :success
 
     post "/products",
