@@ -1,10 +1,8 @@
-
 class UsersController < ApplicationController
-  before_action :set_user, except:[:new, :create, :destroy]
   before_action :logged_in_user, except: [:new, :create]
+  before_action :correct_user, only: [:edit, :update, :show]
 
   def index
-    @product = Product.find_by(params[:id])
   end
 
   def new
@@ -12,16 +10,18 @@ class UsersController < ApplicationController
   end
 
   def show
-
+    @user = User.find(params[:id])
   end
 
   def edit
+    @user = User.find(params[:id])
   end
 
   def create
     @user = User.new(user_params)
     if @user.save
       flash[:success] = "Welcome to No Magick Shop."
+      log_in @user
       redirect_to products_url
     else
       flash[:error] = "Error in creating user, please try again later."
@@ -40,25 +40,27 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    User.find_by(params[:id]).destroy
+    User.find(params[:id]).destroy
     flash[:success] = "Thanks for your patronage."
-    redirect_to users_url
+    redirect_to products_url
   end
 
   private
 
   def user_params
-    params.require(:user).permit(:name, :email, :password, :password_confirmation)
+    params.require(:user).permit(:username, :email, :password, :password_confirmation)
+  end
+
+  def correct_user
+    @user = User.find(params[:id])
+    redirect_back unless @user.id == current_user.id
+    flash[:danger] = "You are not allowed to be here"
   end
 
   def logged_in_user
-    unless :logged_in?
-      flash[:danger] = "Please log in."
-      redirect_to '#'
+    unless logged_in?
+      flash[:danger] = "Please log in"
+      redirect_to welcome_url
     end
-  end
-
-  def set_user
-    @user = User.find_by(params[:id])
   end
 end

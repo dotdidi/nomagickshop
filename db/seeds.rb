@@ -31,5 +31,17 @@ User.create!(username: "didi",
              email: "didi@nomagickshop.com",
              password: "123123",
              password_confirmation: "123123",
-             admin: true
+             admin: true,
+             realname: "Diota Tanara",
+             address: "Somewhere over de rainbow",
+             phone: "9891234"
+            )
+
+User.create!(username: "jane",
+             email: "jane@nomagickshop.com",
+             password: "123123",
+             password_confirmation: "123123",
+             realname: "Jane Doe",
+             address: "Under the sea",
+             phone: "9991234"
             )

@@ -1,0 +1,16 @@
+<%= form_for(@user) do |u|  %>
+  <%= render 'layouts/usererrormsg' %>
+  <%= u.label :username, "User Name"  %>
+  <%= u.text_field :username, class: 'form-control'  %>
+
+  <%= u.label :email, "E-mail"  %>
+  <%= u.email_field :email, class: 'form-control'  %>
+
+  <%= u.label :password, "Password"  %>
+  <%= u.password_field :password, class: 'form-control'  %>
+
+  <%= u.label :password_confirmation, "Confirmation"  %>
+  <%= u.password_field :password_confirmation, class: 'form-control'  %>
+
+  <%= u.submit "Create Account", class: "btn btn-primary"  %>
+<% end %>

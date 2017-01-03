@@ -1,4 +1,3 @@
-require 'users_helper'
 
 class ProductsController < ApplicationController
   before_action :admin_user, except: [:show, :index]
@@ -42,6 +41,12 @@ class ProductsController < ApplicationController
         c.json {render json: @product.errors, status: :unproccessable_entity}
       end
     end
+  end
+
+  def destroy
+    Product.find_by(params[:id]).destroy
+    flash[:success] = "Product is deleted"
+    redirect_to products_url
   end
 
   private

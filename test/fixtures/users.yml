@@ -5,3 +5,9 @@ didi:
   email: didi@nomagickshop.com
   password_digest: <%= User.digest('password') %>
   admin: true
+
+jasper:
+  username: jasper
+  email: jasper@jaskiddingman.com
+  password_digest: <%= User.digest('password')  %>
+  admin: false

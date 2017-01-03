@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   
-  root 'users#index'
+  get 'carts/show'
+
+  root 'products#index'
 
   get '/welcome', to: 'sessions#new'
 
@@ -11,5 +13,7 @@ Rails.application.routes.draw do
   resources :users
 
   resources :products
+
+  resources :line_items
 
 end
