@@ -5,7 +5,9 @@ class SessionsController < ApplicationController
   def create
     user = User.find_by(username: params[:session][:username])
     if user && user.authenticate(params[:session][:password])
-      log_in user
+      session[:user_id] = user.id
+      @current_cart.user_id = user.id
+      @current_cart.save
       flash[:success] = "Welcome back," + user.username
       redirect_to user
     else
@@ -15,7 +17,8 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    log_out if logged_in?
+    session.delete(:user_id) if @current_user.present?
+    session.delete(:cart_id)
     redirect_to products_url
   end
 

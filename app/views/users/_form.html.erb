@@ -6,11 +6,20 @@
   <%= u.label :email, "E-mail"  %>
   <%= u.email_field :email, class: 'form-control'  %>
 
-  <%= u.label :password, "Password"  %>
+  <%= u.label :realname, "First & Last Name"  %>
+  <%= u.text_field :realname, class: 'form-control'  %>
+
+  <%= u.label :phone, "Phone Number"  %>
+  <%= u.text_field :phone, class: 'form-control'  %>
+
+  <%= u.label :address, "Shipping Address"  %>
+  <%= u.text_area :address, class: 'form-control'  %>
+
+  <%= u.label :password, "New Password"  %>
   <%= u.password_field :password, class: 'form-control'  %>
 
   <%= u.label :password_confirmation, "Confirmation"  %>
   <%= u.password_field :password_confirmation, class: 'form-control'  %>
 
-  <%= u.submit "Create Account", class: "btn btn-primary"  %>
+  <%= u.submit yield(:button_text), class: "btn btn-primary"  %>
 <% end %>

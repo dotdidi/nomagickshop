@@ -1,10 +1,10 @@
-  <% if @user.errors.any? %>
-    <div id="error_explanation">
-      <h4>Found <%= pluralize(@user.errors.count, "error") %> in the form you submitted</h4>
-      <ul>
-        <% @user.errors.full_messages.each do |m| %>
-          <li><%= m %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
+<% if @user.errors.any? %>
+  <div id="error_explanation">
+    <p>Found <%= pluralize(@user.errors.count, "error") %> in the form you submitted</p>
+    <ul>
+      <% @user.errors.full_messages.each do |m| %>
+        <li><%= m %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>

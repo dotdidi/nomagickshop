@@ -49,6 +49,15 @@ gem 'jbuilder', '~> 2.5'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
+  # Use for making fixtures.yml or seed
+  gem 'factory_girl_rails'
+end
+
+group :test do
+  # Use for keep track of the test coverage
+  gem 'simplecov'
+  # Use for cleaning database after Factory Girl
+  gem 'database_cleaner'
 end
 
 group :development do

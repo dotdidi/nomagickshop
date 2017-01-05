@@ -1,5 +1,7 @@
 
 class ProductsController < ApplicationController
+  include CurrentCart
+  before_action :set_cart
   before_action :admin_user, except: [:show, :index]
 
   def index
@@ -56,13 +58,9 @@ class ProductsController < ApplicationController
   end
 
   def admin_user
-    if logged_in? do
-      redirect_to(welcome_url) unless current_user.admin? 
+    unless @current_user.present? && @current_user.admin? 
       flash[:danger] = "You are not authorized to do this actions"
-    end
-    else
       redirect_to(welcome_url)
-      flash[:danger] = "You are not authorized to do this actions"
     end
   end
 end

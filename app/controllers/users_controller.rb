@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
-  before_action :logged_in_user, except: [:new, :create]
-  before_action :correct_user, only: [:edit, :update, :show]
+  before_action :user_logged_in?, except: [:new, :create]
+  before_action :is_own_user?, only: [:edit, :update, :show]
 
   def index
   end
@@ -10,21 +10,19 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = User.find(params[:id])
   end
 
   def edit
-    @user = User.find(params[:id])
   end
 
   def create
     @user = User.new(user_params)
     if @user.save
       flash[:success] = "Welcome to No Magick Shop."
-      log_in @user
       redirect_to products_url
+      session[:user_id] = @user.id
     else
-      flash[:error] = "Error in creating user, please try again later."
+      flash.now[:error] = "Error in creating user, please try again later."
       render 'new'
     end
   end
@@ -34,7 +32,7 @@ class UsersController < ApplicationController
       flash[:success] = "Profile updated."
       redirect_to @user
     else
-      flash[:error] = "Profile can not be updated for the moment."
+      flash.now[:error] = "Profile can not be updated for the moment."
       render 'edit'
     end
   end
@@ -48,19 +46,15 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:username, :email, :password, :password_confirmation)
+    params.require(:user).permit(:username, :email, :realname, :address, :phone, :password, :password_confirmation)
   end
 
-  def correct_user
+  def is_own_user?
     @user = User.find(params[:id])
-    redirect_back unless @user.id == current_user.id
-    flash[:danger] = "You are not allowed to be here"
-  end
-
-  def logged_in_user
-    unless logged_in?
-      flash[:danger] = "Please log in"
-      redirect_to welcome_url
+    unless @user.id == @current_user.id
+      flash[:danger] = "You are not allowed to be here"
+      redirect_to users_url
     end
   end
+
 end

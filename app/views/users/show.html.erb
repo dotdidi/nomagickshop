@@ -1,15 +1,47 @@
-<% provide(:title, @user.username) %>
+<% provide(:title, (@user.realname.blank? ? @user.username : @user.realname  ) + "'s Page" ) %>
 <div class="row">
-  <aside class="col-md-4">
+  <aside class="col-md-6">
     <section class="user_info">
-      <h1>
-        <%= @user.realname  %>
-      </h1>
-      <p>
-        <%= @user.address  %>
-      </p>
+      <h2>
+        Your Account information
+      </h2>
+      <div class="col-md-4">
+        <p>
+          First & Last name: </br>
+          Username: </br>
+          Phone number: </br>
+          Email: </br>
+          Address: 
+        </p>
+      </div>
+      <div class="col-md-8">
+        <p>
+          <%= @user.realname  %></br>
+          <%= @user.username %></br>
+          <%= @user.phone  %></br>
+          <%= @user.email  %></br>
+          <%= @user.address  %>
+        </p>
+      </div>
     </section>
   </aside>
-  <div class="col-md-8">
+  <div class="col-md-6">
+    <h2>
+      Orders
+    </h2>
+    <div class="col-md-12">
+      <ul class="horizontal">
+        <% @user.carts.each.with_index(1) do |cart, index| %>
+          <p> <%= index.ordinalize  %> cart</p>
+          <% cart.line_items.each do |item| %>
+            <li class="item">
+              <%= item.product.title  %></br>
+              <%= image_tag(item.product.img_url, class: 'image')  %></br>
+              <%= button_to "Remove from Cart", line_item_path(item), method: :delete %>
+            </li>
+          <% end %>
+        <% end %>
+      </ul>
+    </div>
   </div>
 </div>

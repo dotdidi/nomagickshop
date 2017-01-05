@@ -91,6 +91,16 @@ p {
 }
 
 /* header */
+.navbar {
+
+}
+
+ul.horizontal li{
+  display: inline-block;
+  list-style-type: none;
+  padding: 10px;
+  text-align: center;
+}
 
 #logo {
   float: left;
@@ -151,6 +161,7 @@ footer ul li {
   box-sizing:         border-box;
 }
 
+
 /* sidebar */
 
 aside {
@@ -163,6 +174,10 @@ aside {
     &:first-child {
       border: 0;
       padding-top: 0;
+    }
+  section.user_info {
+    font-family: sans-serif;
+    font-weight: 700;
     }
     span {
       display: block;

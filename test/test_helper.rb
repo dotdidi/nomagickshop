@@ -1,14 +1,21 @@
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
+require 'simplecov'
+SimpleCov.start
 
 class ActiveSupport::TestCase
-  # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
+  include FactoryGirl::Syntax::Methods
+  ActiveRecord::Migration.maintain_test_schema!
+
   fixtures :all
   include ApplicationHelper
   include SessionsHelper
   include UsersHelper
   
+  setup do
+    DatabaseCleaner.strategy = :transaction
+  end
 
   def is_logged_in?
     session[:user_id].present?

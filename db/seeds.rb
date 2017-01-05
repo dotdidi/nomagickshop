@@ -1,4 +1,5 @@
 # Products
+
 Product.create!(title: "Titan Fall 2",
                 desc: "Call down your Titan and get ready for an exciting first-person combat 
                        experience in Titanfall 2®! The sequel introduces a new single player campaign, 
@@ -25,8 +26,20 @@ Product.create!(title: "The Last Guardian",
                 img_url: "https://images-na.ssl-images-amazon.com/images/I/91syJhZlWEL._AC_SL1500_.jpg",
                 price: "58.79"
                )
+99.times do |n|
+  title = Faker::Book.title
+  desc = Faker::Lorem.paragraphs
+  img_url = "http://www.yourwebgraphics.com/gallery/data/media/7/book_cover_blue_9.png"
+  price = Faker::Commerce.price
+  Product.create!(title: title, 
+                  desc: desc,
+                  img_url: img_url, 
+                  price: price)
+
+end
 
 # Users
+
 User.create!(username: "didi",
              email: "didi@nomagickshop.com",
              password: "123123",

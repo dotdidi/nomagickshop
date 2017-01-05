@@ -26,6 +26,9 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
     get edit_user_url(@user)
     assert_response :redirect, "Users can be edit without log in"
+  end
+
+  test "Log in successful" do
 
     get welcome_url
     post welcome_url, params: { session: {username: @user.username, password: 'password'}}
@@ -34,12 +37,35 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
     follow_redirect!
     assert_not flash.empty?, "There's no message when log in succesfully"
+    delete bye_url
+  end
 
+
+  test "should not edit other user's prof" do
+
+    get welcome_url
+    post welcome_url, params: { session: {username: @user.username, password: 'password'}}
     get edit_user_url(@other)
     assert_response :redirect, "Users can be edit by other users "
-
-    get edit_user_url(@user)
-    assert_response :success, "Users cannot be edit after log in with correct id"
+    delete bye_url
 
   end
+
+  test "able to edit self profile" do
+    get welcome_url
+    post welcome_url, params: { session: {username: @user.username, password: 'password'}}
+    get edit_user_url(@user)
+    assert_response :success
+    delete bye_url
+  end
+
+  test "the show display either real name or user name" do
+    log_in_as @user
+    follow_redirect!
+    assert_select 'h1', "Diota Tanara's Page"
+    patch user_path(@user), params: { user: {username: @user.username, email: @user.email, password: 'password', password_confirmation: 'password', realname: ' '}}
+    follow_redirect!
+    assert_select 'h1', "didi's Page"
+  end
+
 end
