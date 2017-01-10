@@ -1,4 +1,3 @@
-
 class ProductsController < ApplicationController
   include CurrentCart
   before_action :set_cart
@@ -23,9 +22,10 @@ class ProductsController < ApplicationController
     @product = Product.find params[:id]
     respond_to do |u|
       if @product.update(prd_params)
-        u.html {redirect_to @product, notice: 'Product was updated'}
+        u.html {redirect_to @product, notice: 'Product was updated.'}
         u.json {render :show, status: :ok, location: @product}
       else
+        flash.now[:error] = "Product was failed to update."
         u.html {render :edit}
         u.json {render json: @product.errors, status: :unprocessable_entity }
       end
@@ -39,15 +39,21 @@ class ProductsController < ApplicationController
         c.html {redirect_to @product, notice: 'Product has successfully created.'}
         c.json {render :show, status: created, location: @product}
       else
-        c.html {render :new}
+        flash.now[:error] = "Error in creating the product."
+        c.html {render :new} 
         c.json {render json: @product.errors, status: :unproccessable_entity}
       end
     end
   end
 
   def destroy
-    Product.find_by(params[:id]).destroy
-    flash[:success] = "Product is deleted"
+    @product = Product.find(params[:id])
+    @product.destroy
+    if @product.destroyed?
+      flash[:success] = "Product is deleted."
+    else
+      flash[:error] = "Product can not be deleted."
+    end
     redirect_to products_url
   end
 

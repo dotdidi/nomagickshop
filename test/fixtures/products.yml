@@ -11,3 +11,10 @@ ffxv:
   desc: Final Fantasy XV is an open world action role-playing video game developed and published by Square Enix for the PlayStation 4 and Xbox One home consoles.
   img_url: https://images-na.ssl-images-amazon.com/images/I/81WyEyShisL._AC_SL1500_.jpg
   price: 39.00
+
+three:
+  title: three
+  desc: three little pigs
+  img_url: https://blablabal.com/images.jpg
+  price: 29.00
+

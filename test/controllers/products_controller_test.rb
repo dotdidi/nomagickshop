@@ -3,11 +3,12 @@ require 'test_helper'
 class ProductsControllerTest < ActionDispatch::IntegrationTest
   def setup
     @user = users(:didi)
-    @product = products(:titan)
+    @product = products(:ffxv)
+    @prodel = products(:three)
     @update = { title: "Yahoo", 
-               desc: "successfully create a product", 
-               img_url: "https://s.yimg.com/dh/ap/default/130909/y_200_a.png", 
-               price: "38.92" } 
+                desc: "successfully create a product", 
+                img_url: "https://s.yimg.com/dh/ap/default/130909/y_200_a.png", 
+                price: "38.92" } 
   end
 
   test "should get index" do
@@ -16,15 +17,13 @@ class ProductsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should get new" do
-    get welcome_url
-    post welcome_url, params: { session: {username: @user.username, password: 'password' }}
+    log_in_as @user
     get new_product_url
     assert_response :success, "New page can not be accessed"
   end
 
   test "should get edit" do
-    get welcome_url
-    post welcome_url, params: { session: {username: @user.username, password: 'password' }}
+    log_in_as @user
     get edit_product_url(@product)
     assert_response :success, "Edit page can not be accessed"
   end
@@ -34,24 +33,71 @@ class ProductsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success, "Show can not be accessed"
   end
 
-  test "can create a Product" do
-    get welcome_url
-    post welcome_url, params: { session: {username: @user.username, password: 'password' }}
-    get new_product_url
-    assert_response :success
+  test "should be able to create a Product" do
+    assert_difference('Product.count') do
+      log_in_as @user
+      post "/products", params: { product: @update}
+      assert_response :redirect
+      follow_redirect!
+      assert_select 'div.alert', 'Product has successfully created.'
+    end
+  end
 
-    post "/products",
-      params: { product: @update}
-    assert_response :redirect
+  test "should not be able to create a Product without title/desc/img_url/price" do
+    log_in_as @user
     follow_redirect!
-    assert_response :success, "Product can not be created"
+    assert_difference('Product.count', 0) do
+      post "/products", params: { product: {title: ' ', desc: 'a'*151, img_url: 'https://s.yimg.com/dh/ap/default/130909/y_200_a.png', price: '38.9'}}
+      assert_select 'div#error_explanation li', "Title can't be blank"
+    end
+    assert_difference('Product.count', 0) do
+      post "/products", params: { product: {title: 'Yahoo', desc: ' ', img_url: 'https://s.yimg.com/dh/ap/default/130909/y_200_a.png', price: '38.9'}}
+      assert_select 'div#error_explanation li', "Desc can't be blank"
+    end
+    assert_difference('Product.count', 0) do
+      post "/products", params: { product: {title: 'Yahoo', desc: 'a'*151, img_url: ' ', price: '38.9'}}
+      assert_select 'div#error_explanation li', "Img url is invalid"
+    end
+    assert_difference('Product.count', 0) do
+      post "/products", params: { product: {title: 'Yahoo', desc: 'a'*151, img_url: 'https://s.yimg.com/dh/ap/default/130909/y_200_a.png', price: ' '}}
+      assert_select 'div#error_explanation li', "Price is not a number"
+    end
+  end
+
+  test "should not be able to delete a Product associated with line items" do
+    assert_difference('Product.count', 0) do
+      log_in_as @user
+      delete product_url(@product)
+      assert_not flash.empty?
+      follow_redirect!
+      assert_select 'div.alert', 'Product can not be deleted.'
+    end
+  end
+
+  test "should delete a Product" do
+    assert_difference('Product.count', -1) do
+      log_in_as @user
+      delete product_url(@prodel)
+      follow_redirect!
+      assert_not flash.empty?
+      assert_select 'div.alert', 'Product is deleted.'
+    end
   end
 
   test "should be able to update product" do
-    get welcome_url
-    post welcome_url, params: { session: {username: @user.username, password: 'password' }}
+    log_in_as @user
     patch product_url(@product), params: { product: @update}
-    assert_redirected_to product_url(@product), "Product can not be updated"
+    assert_redirected_to product_url(@product)
+    assert @product.title = "Yahoo"
+    follow_redirect!
+    assert_select 'div.alert', 'Product was updated.'
+  end
+
+  test "should not be able to update product without title / description / image url / price" do
+    log_in_as @user
+    follow_redirect!
+    patch product_url(@product), params: { product: { title: '   ', desc: '   ', img_url: '   ', price: '   '}}
+    assert_select 'div.alert', 'Product was failed to update.'
   end
 
   test "redirecting unauthorized personel to access some place" do

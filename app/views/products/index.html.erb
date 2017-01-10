@@ -1,6 +1,9 @@
 <% provide(:title, "Showcase") %>
 <div class="container">
   <table class="table table-striped">
+    <% if logged_in? && @current_user.admin? %>
+      <%= link_to 'New Product', new_product_path %>
+    <% end %>
     <% @products.each do |product| %>
       <tr> 
         <td><%= image_tag(product.img_url,class: 'image') %></td>
@@ -23,12 +26,11 @@
             <%= link_to 'Edit', edit_product_path(product) %></br>
             <%= link_to 'Delete', product, method: :delete, data: { confirm: 'Are you sure?' } %>
           <% else %>
-            <%= button_to 'Add to Cart', line_items_path(product_id:product)  %>
+            <%= render '/line_items/form', x: product.id %>
           <% end %>
         </td>
       </tr>
     <% end %>
   </table>
-  <%= link_to 'New Product', new_product_path %>
 </div>
 

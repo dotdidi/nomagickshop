@@ -1,25 +1,25 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
+l1:
   product: ffxv
-  cart: one
+  cart: cart1
 
-two:
+l2:
   product: ffxv
-  cart: two
+  cart: cart2
 
-three:
+l3:
   product: titan
-  cart: one
+  cart: cart1
 
-four:
+l4:
   product: ffxv
-  cart: one
+  cart: cart1
 
-five:
+l5:
   product: titan
-  cart: one
+  cart: cart1
 
-six:
+l6:
   product: titan
-  cart: two
+  cart: cart2

@@ -1,14 +1,11 @@
 class LineItemsController < ApplicationController
-  include CurrentCart
   before_action :set_cart, only: :create
   before_action :set_line_item, only: [:show, :edit, :update, :destroy]
 
   def index
-    @line_items = LineItem.all
   end
 
   def new
-    @line_item = LineItem.new
   end
 
   def edit
@@ -18,18 +15,13 @@ class LineItemsController < ApplicationController
   end
 
   def create
-    product = Product.find(params[:product_id])
-    @line_item = @current_cart.line_items.build(product: product)
+    @product = Product.find(line_item_params[:product_id])
+    @add_quantity = line_item_params[:add_quantity].to_i
+    @line_item = @current_cart.add_product(@product, @add_quantity)
     respond_to do |format|
-      if @line_item.save
-        flash[:success] = "Item added to the cart"
-        format.html {redirect_to root_url} 
-        format.json {render :show, status: :created, location: @line_item }
-      else
-        flash[:error] =  "Item failed to add the cart"
-        format.html {render :new}
-        format.json {render json: @line_item.errors, status: :unprocessabel_entity}
-      end
+      flash[:success] = "Item added to the cart"
+      format.html {redirect_to root_url} 
+      format.json {render :show, status: :created, location: @line_item }
     end
   end
 
@@ -63,7 +55,7 @@ class LineItemsController < ApplicationController
   end
 
   def line_item_params
-    params.require(:line_item).permit(:product_id, :cart_id)
+    params.require(:line_item).permit(:product_id, :cart_id, :add_quantity)
   end
 
 end

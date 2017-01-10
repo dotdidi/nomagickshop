@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :user_logged_in?, except: [:new, :create]
-  before_action :is_own_user?, only: [:edit, :update, :show]
+  before_action :is_own_user?, only: [:edit, :update, :show, :destroy]
 
   def index
   end
@@ -38,6 +38,7 @@ class UsersController < ApplicationController
   end
 
   def destroy
+    session[:user_id] = nil
     User.find(params[:id]).destroy
     flash[:success] = "Thanks for your patronage."
     redirect_to products_url
