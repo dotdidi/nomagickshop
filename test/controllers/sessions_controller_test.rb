@@ -3,8 +3,8 @@ require 'test_helper'
 class SessionsControllerTest < ActionDispatch::IntegrationTest
 
   def setup
-    @user = users(:didi)
-    @cart = carts(:cart1)
+    @user = create(:user)
+    @cart = create(:cart, :without_user)
   end
 
   test "should get new" do
@@ -24,4 +24,15 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
     assert_select 'div.alert', 'Invalid User name or password'
     assert_not session[:user_id] == @user.id
   end
+
+  test "should be able to delete the session/log out" do
+    log_in_as @user
+    follow_redirect!
+    assert session[:user_id] == @user.id
+    delete bye_url
+    follow_redirect!
+    assert_not session[:user_id] == @user.id
+    assert session[:user_id] == nil
+  end
+
 end

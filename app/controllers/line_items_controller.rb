@@ -1,5 +1,6 @@
 class LineItemsController < ApplicationController
   before_action :set_cart, only: :create
+  before_action :set_input_value, only: [:create, :update]
   before_action :set_line_item, only: [:show, :edit, :update, :destroy]
 
   def index
@@ -15,8 +16,6 @@ class LineItemsController < ApplicationController
   end
 
   def create
-    @product = Product.find(line_item_params[:product_id])
-    @add_quantity = line_item_params[:add_quantity].to_i
     @line_item = @current_cart.add_product(@product, @add_quantity)
     respond_to do |format|
       flash[:success] = "Item added to the cart"
@@ -26,14 +25,15 @@ class LineItemsController < ApplicationController
   end
 
   def update
+    @line_item.quantity = @add_quantity
     respond_to do |format|
       if @line_item.update(line_item_params)
         flash[:success] = "Item cart updated"
-        format.html { redirect_to (@current_cart)}
+        format.html { redirect_to cart_url}
         format.json { render :show, status: :ok, location: @line_item }
       else
-        flash[:error] = "Cart failed to update"
-        format.html { render :edit }
+        flash[:error] = "Item failed to update"
+        format.html { redirect_to cart_url}
         format.json { render json: @line_item.errors, status: :unprocessable_entity }
       end
     end
@@ -52,6 +52,11 @@ class LineItemsController < ApplicationController
 
   def set_line_item
     @line_item = LineItem.find(params[:id])
+  end
+
+  def set_input_value
+    @product = Product.find(line_item_params[:product_id])
+    @add_quantity = line_item_params[:add_quantity].to_i
   end
 
   def line_item_params

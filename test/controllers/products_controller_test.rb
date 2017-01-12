@@ -2,13 +2,13 @@ require 'test_helper'
 
 class ProductsControllerTest < ActionDispatch::IntegrationTest
   def setup
-    @user = users(:didi)
-    @product = products(:ffxv)
-    @prodel = products(:three)
-    @update = { title: "Yahoo", 
-                desc: "successfully create a product", 
-                img_url: "https://s.yimg.com/dh/ap/default/130909/y_200_a.png", 
-                price: "38.92" } 
+    @user = create(:user, admin: true)
+    @line_item = create(:line_item, :without_user)
+    @product = @line_item.product
+    @cart = @line_item.cart
+
+    # list_items = create_list(:line_item, 3, cart: @cart, product: @product)
+    @prodel = create(:product)
   end
 
   test "should get index" do
@@ -36,7 +36,7 @@ class ProductsControllerTest < ActionDispatch::IntegrationTest
   test "should be able to create a Product" do
     assert_difference('Product.count') do
       log_in_as @user
-      post "/products", params: { product: @update}
+      post "/products", params: { product: attributes_for(:product)}
       assert_response :redirect
       follow_redirect!
       assert_select 'div.alert', 'Product has successfully created.'
@@ -86,7 +86,7 @@ class ProductsControllerTest < ActionDispatch::IntegrationTest
 
   test "should be able to update product" do
     log_in_as @user
-    patch product_url(@product), params: { product: @update}
+    patch product_url(@product), params: { product: attributes_for(:product)}
     assert_redirected_to product_url(@product)
     assert @product.title = "Yahoo"
     follow_redirect!
@@ -106,7 +106,7 @@ class ProductsControllerTest < ActionDispatch::IntegrationTest
     assert_response :redirect, "Non-admin can access new product"
     get edit_product_url(@product)
     assert_response :redirect, "Non-admin can access edit product"
-    patch product_url(@product), params: {product: @update}
+    patch product_url(@product), params: {product: attributes_for(:product)}
     assert_response :redirect, "Non-admin can update the product"
   end
 

@@ -14,18 +14,14 @@ class ActiveSupport::TestCase
   include UsersHelper
   
   setup do
-    DatabaseCleaner.strategy = :transaction
+    DatabaseCleaner.strategy = :truncation
+    DatabaseCleaner.clean
+    create_list(:product, 3)
   end
 
   def is_logged_in?
     session[:user_id].present?
   end
-
-  def log_in_as(user)
-    session[:user_id] = user.id
-  end
-
-  # Add more helper methods to be used by all tests here...
 end
 
 class ActionDispatch::IntegrationTest
@@ -33,4 +29,5 @@ class ActionDispatch::IntegrationTest
     post welcome_path, params: { session: { username: user.username, 
                                             password: password, } }
   end
+
 end

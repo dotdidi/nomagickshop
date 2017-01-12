@@ -28,7 +28,7 @@ Product.create!(title: "The Last Guardian",
                )
 99.times do |n|
   title = Faker::Book.title
-  desc = Faker::Lorem.paragraphs
+  desc = Faker::Lorem.paragraph(5)
   img_url = "http://www.yourwebgraphics.com/gallery/data/media/7/book_cover_blue_9.png"
   price = Faker::Commerce.price
   Product.create!(title: title, 

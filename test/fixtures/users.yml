@@ -1,17 +1,2 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-didi: 
-  username: didi
-  email: didi@nomagickshop.com
-  password_digest: <%= User.digest('password') %>
-  realname: Diota Tanara
-  address: Anywhere on Earth
-  phone: 9991234
-  admin: true
-  
-
-jasper:
-  username: jasper
-  email: jasper@jaskiddingman.com
-  password_digest: <%= User.digest('password')  %>
-  admin: false

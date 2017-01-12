@@ -1,23 +1,29 @@
-<% provide(:title, "Shopping Cart") %>
 
 <div class="container">
-  <div class="col-md-12">
-    <ul class="horizontal">
-      <% @current_cart.line_items.each do |item| %>
-        <li class="quantity">
-          <%= item.quantity  %>
-        </li>
-        <li class="item">
-          <%= item.product.title  %></br>
-          <%= image_tag(item.product.img_url, class: 'image')  %></br>
-          <%= button_to "Remove from Cart", line_item_path(item), method: :delete %>
-        </li>
-      <% end %>
-    </ul>
-    <ul>
-      <li style="list-style: none;">
-        <h4><%= number_to_currency(@current_cart.total_price) %></h4>
-      </li>
-    </ul>
+  <div class="row col-md-12">
+    <% @current_cart.line_items.each do |item| %>
+      <div class="col-md-3 item">
+        <div class="col-md-5">
+          <h5><%= item.product.title  %></h5>
+          <%= image_tag(item.product.img_url, class: 'display')  %>
+        </div>
+        <div class="col-md-7">
+          <%= form_for (item), method: :patch do |f| %>
+            <%= f.hidden_field :product_id, value: item.product.id  %>
+            <%= f.number_field :add_quantity, value: item.quantity, class: 'form-control'  %>
+            <%= f.submit "Quantity", class: "btn btn-primary"  %>
+          <% end %>
+          <h6> <%= item.quantity  %> x <%= number_to_currency(item.product.price)%> = <%= number_to_currency(item.total_price)  %></h6>
+          <%= button_to "Remove item", line_item_path(item), method: :delete, class: "btn" %>
+        </div>
+      </div>
+    <% end %>
   </div>
+</div>
+<div class="col-md-12">
+  <ul>
+    <li style="list-style: none;">
+      <h4>Total <%= number_to_currency(@current_cart.total_price) %></h4>
+    </li>
+  </ul>
 </div>

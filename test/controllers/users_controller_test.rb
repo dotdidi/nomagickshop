@@ -3,8 +3,8 @@ require 'test_helper'
 class UsersControllerTest < ActionDispatch::IntegrationTest
 
   def setup
-    @user = users(:didi)
-    @other = users(:jasper)
+    @user = create(:user, admin: true)
+    @other = create(:user, username: 'jasper', realname: 'Jason Percy' )
   end
 
   test "should log in before access index" do

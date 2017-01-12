@@ -1,5 +1,0 @@
-module CurrentCart
-
-  private
-
-end

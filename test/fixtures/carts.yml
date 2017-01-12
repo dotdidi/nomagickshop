@@ -1,9 +1,2 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-cart1: 
-  id: 1
-
-
-cart2: 
-  id: 2
-

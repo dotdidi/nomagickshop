@@ -1,6 +1,6 @@
 <%= form_for LineItem.new do |l| %>
 
   <%= l.hidden_field :product_id, value: x %>
-  <%= l.number_field :add_quantity, value: 1, min: 1%>
-  <%= l.submit 'Add to Cart'  %>
+  <%= l.number_field :add_quantity, value: 1, min: 1, class: 'form-control'%>
+  <%= l.submit yield(:button_text), class: "btn btn-primary" %>
 <% end %>

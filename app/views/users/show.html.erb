@@ -35,7 +35,7 @@
           <p> <%= index.ordinalize  %> cart</p>
           <% cart.line_items.each do |item| %>
             <li class="item">
-              <%= item.product.title  %></br>
+              <%= item.quantity  %> x <%= item.product.title  %></br>
               <%= image_tag(item.product.img_url, class: 'image')  %></br>
               <%= button_to "Remove from Cart", line_item_path(item), method: :delete %>
             </li>

@@ -3,8 +3,7 @@ require 'test_helper'
 class ProductTest < ActiveSupport::TestCase
 
   def setup
-    @product = Product.new(title: "Yahoo", desc: "Yahoo Inc. is an American multinational technology company headquartered in Sunnyvale, California. Yahoo was founded by Jerry Yang and David Filo in January 1994 and was incorporated on March 2, 1995.", 
-                           img_url: "https://s.yimg.com/dh/ap/default/130909/y_200_a.png", price: "38.92")
+    @product = create(:product)
   end
 
   test "Product should be valid" do

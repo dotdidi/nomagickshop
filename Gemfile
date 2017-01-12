@@ -56,7 +56,7 @@ group :test do
   gem 'simplecov'
   # Use for cleaning database after Factory Girl
   gem 'database_cleaner'
-  # Use for making fixtures.yml or seed
+  # Us making fixtures.yml or seed
   gem 'factory_girl_rails'
 end
 

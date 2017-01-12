@@ -1,5 +1,4 @@
 class ProductsController < ApplicationController
-  include CurrentCart
   before_action :set_cart
   before_action :admin_user, except: [:show, :index]
 
