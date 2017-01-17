@@ -95,12 +95,16 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
       post users_url, params: { user: {username: @user.username, email: 'yadayada@yada.com', password: 'password', password_confirmation: 'password', realname: 'James Bond'}}
     end
     assert_not flash.empty?
+    assert_response :redirect
+    follow_redirect!
     assert_select 'div.alert', 'Error in creating user, please try again later.'
 
     assert_difference('User.count', 0) do
       post users_url, params: { user: {username: 'yoda', email: @user.email, password: 'password', password_confirmation: 'password', realname: 'James Bond'}}
     end
     assert_not flash.empty?
+    assert_response :redirect
+    follow_redirect!
     assert_select 'div.alert', 'Error in creating user, please try again later.'
   end
 

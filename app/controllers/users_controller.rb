@@ -19,12 +19,11 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       flash[:success] = "Welcome to No Magick Shop."
-      redirect_to products_url
       session[:user_id] = @user.id
     else
-      flash.now[:error] = "Error in creating user, please try again later."
-      render 'new'
+      flash[:error] = "Error in creating user, please try again later."
     end
+      redirect_to products_url
   end
 
   def update

@@ -1,0 +1,11 @@
+<% provide(:title, 'Order')  %>
+<div class="col-md-12">
+  <div class="col-md-9">
+    <%= render 'item_cart', x: @current_cart  %>
+  </div>
+  <div class="col-md-3">
+    <%= render 'form', order: @order  %>
+  </div>
+</div>
+Total <%= number_to_currency(@current_cart.total_price)  %>
+</div>

@@ -1,16 +1,23 @@
-<%= form_for(product) do |p| %>
-  <%= render '/layouts/proderrormsg'  %>
-  <%= p.label :title %>
-  <%= p.text_field :title, class: 'form-control' %>
-
-  <%= p.label :description %>
-  <%= p.text_area :desc, class: 'form-control' %>
-
-  <%= p.label :image_url %>
-  <%= p.text_field :img_url, class: 'form-control' %>
-
-  <%= p.label :price %>
-  <%= p.number_field :price, class: 'form-control', step: :any, value: number_to_currency(p.object.price.to_f, delimiter: '', unit: '$') %>
-
-  <%= p.submit %>
+<%= simple_form_for product, defaults: {input_html: {class: 'form-control'}} do |f| %>
+  <%= render '/layouts/errormsg', x: @product %>
+  <div class ="form-inputs">
+    <%= f.input :title, wrapper: :vertical_input_group do %>
+      <span class="input-group-addon"><span class="glyphicon glyphicon-font"></span></span>
+      <%= f.input_field :title %>
+    <% end %>
+    <%= f.input :desc, label: 'Description', wrapper: :vertical_input_group do %>
+      <span class="input-group-addon"><span class="glyphicon glyphicon-comment"></span></span>
+      <%= f.input_field :desc, as: :text %>
+    <% end %>
+    <%= f.input :img_url, label: 'Image Url', wrapper: :vertical_input_group do  %>
+      <span class="input-group-addon"><span class="glyphicon glyphicon-globe"></span></span>
+      <%= f.input_field :img_url %>
+    <% end %>
+    <%= f.input :price, wrapper: :vertical_input_group do %>
+      <span class="input-group-addon"><span class="glyphicon glyphicon-usd"></span></span>
+      <%= f.input_field :price %>
+      <span class="input-group-addon">.00</span>
+    <% end %>
+    <%= f.button :submit  %>
+  </div>
 <% end %>

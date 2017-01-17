@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   before_action :set_current_user
 
   private
+
   def set_current_user
     @current_user = User.find(session[:user_id]) if session[:user_id].present?
   end
@@ -26,6 +27,7 @@ class ApplicationController < ActionController::Base
     else
       @current_cart ||= Cart.find(session[:cart_id]) 
     end
+  # in case the database is crashed or something worse happened
   rescue ActiveRecord::RecordNotFound
     if Rails.env.development? || Rails.env.test?
       new_session_cart

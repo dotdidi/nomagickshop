@@ -3,6 +3,7 @@ require 'test_helper'
 class LineItemsControllerTest < ActionDispatch::IntegrationTest
 
   def setup
+    # to create a new session
     get root_url
     @cart_without_user = Cart.find(session[:cart_id])
     @item1 = create(:line_item, cart: @cart_without_user)

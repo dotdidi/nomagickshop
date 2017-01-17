@@ -17,35 +17,24 @@ class LineItemsController < ApplicationController
 
   def create
     @line_item = @current_cart.add_product(@product, @add_quantity)
-    respond_to do |format|
-      flash[:success] = "Item added to the cart"
-      format.html {redirect_to root_url} 
-      format.json {render :show, status: :created, location: @line_item }
-    end
+    flash[:success] = "Item added to the cart"
+    redirect_to root_url
   end
 
   def update
     @line_item.quantity = @add_quantity
-    respond_to do |format|
-      if @line_item.update(line_item_params)
-        flash[:success] = "Item cart updated"
-        format.html { redirect_to cart_url}
-        format.json { render :show, status: :ok, location: @line_item }
-      else
-        flash[:error] = "Item failed to update"
-        format.html { redirect_to cart_url}
-        format.json { render json: @line_item.errors, status: :unprocessable_entity }
-      end
+    if @line_item.update(line_item_params)
+      flash[:success] = "Item cart updated"
+    else
+      flash[:error] = "Item failed to update"
     end
+    redirect_to cart_url
   end
 
   def destroy
     @line_item.destroy
-    respond_to do |format|
-      flash[:success] = "Item successfully destroyed"
-      format.html { redirect_to (request.referer.present? ? :back : root_path) }
-      format.json { head :no_content}
-    end
+    flash[:success] = "Item successfully destroyed"
+    redirect_to (request.referer.present? ? :back : root_path)
   end
 
   private

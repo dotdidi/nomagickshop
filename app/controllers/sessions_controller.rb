@@ -6,9 +6,9 @@ class SessionsController < ApplicationController
     user = User.find_by(username: params[:session][:username])
     if user && user.authenticate(params[:session][:password])
       session[:user_id] = user.id
-      @current_cart.user_id = user.id
+      @current_cart.user_id = session[:user_id]
       @current_cart.save
-      flash[:success] = "Welcome back," + user.username
+      flash[:success] = "Welcome back, " + user.username
       redirect_to user
     else
       flash[:danger] = "Invalid User name or password"

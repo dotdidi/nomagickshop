@@ -1,0 +1,17 @@
+<div class="col-md-12">
+  <% x.line_items.each do |item| %>
+    <div class="col-md-3">
+      <ul style="list-style:none">
+        <li>
+          <%= item.product.title  %>
+        </li>
+        <li>
+          <%= image_tag(item.product.img_url, class: 'image')  %>
+        </li>
+        <li>
+          <%= item.quantity  %> x <%= number_to_currency(item.product.price) %> = <%= number_to_currency(item.total_price)  %>
+        </li>
+      </ul>
+    </div>
+  <% end %>
+</div>

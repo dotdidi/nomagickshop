@@ -1,0 +1,32 @@
+<% if @order.shipped? %>
+  <% provide(:title, 'Shipped') %>
+<% else %>
+  <% provide(:title, 'Pending') %>
+<% end %>
+
+<div class="container">
+  <aside class="col-md-8">
+    <h2> Your Order</h2>
+    <%= render 'item_cart', x: @order %>
+  </aside>
+  <aside class="col-md-4">
+    <section class="user_info">
+      <h2>Order information</h2>
+      <div class="col-md-4">
+        <p>
+          Name: </br>
+          Email: </br>
+          Address: </br>
+          Pay Type:
+        </p>
+      </div>
+      <div class="col-md-8">
+        <p>
+          <%= @order.name  %></br>
+          <%= @order.email  %></br>
+          <%= @order.address  %></br>
+          <%= @order.pay_type  %>
+        </p>
+      </div>
+  </aside>
+</div>

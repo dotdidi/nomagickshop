@@ -60,6 +60,24 @@ div.item {
   padding: 15px;
 }
 
+ul.radio-list li{
+  width: 100%;
+  list-style: none;
+
+  .input-group-addon{
+    text-align: left;
+
+    &:first-child{
+      border-right: 1px solid #ccc !important;
+      border-radius: 4px;
+    }
+    &:last-child{
+      border-left: 1px solid #ccc !important;
+      border-radius: 4px;
+    }
+  }
+}
+
 /* typography */
 
 h1, h2, h3, h4, h5, h6 {
@@ -130,6 +148,7 @@ footer {
   padding-top: 5px;
   border-top: 1px solid #eaeaea;
   color: #777;
+  padding-right: 10px;
 }
 
 footer a {
@@ -257,6 +276,12 @@ input, textarea, select, .uneditable-input {
 
 input {
   height: auto !important;
+
+}
+
+.radio {
+  display: inline-block;
+  width: 30px;
 }
 
 #error_explanation {
@@ -282,6 +307,7 @@ input {
     font-weight: normal;
   }
 }
+
 
 #session_remember_me {
   width: auto;

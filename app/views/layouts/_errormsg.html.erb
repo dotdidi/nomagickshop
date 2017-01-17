@@ -1,0 +1,10 @@
+<% if x.errors.any? %>
+  <div id="error_explanation">
+    <p>Found <%= pluralize(x.errors.count, "error") %> in the form you submitted</p>
+    <ul>
+      <% x.errors.full_messages.each do |m| %>
+        <li><%= m %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>

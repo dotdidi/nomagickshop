@@ -1,6 +1,7 @@
 class User < ApplicationRecord
   has_many :carts
   has_many :line_items, through: :carts
+  has_many :orders
   before_save :downcase_email
   validates :username, uniqueness: true, presence: true, length: {minimum: 4}
   validates :email, presence: true, uniqueness: {case_sensitive: false}, format: { with: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i }

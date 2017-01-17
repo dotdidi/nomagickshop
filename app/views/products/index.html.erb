@@ -1,10 +1,13 @@
 <% provide(:title, "Showcase") %>
 <% provide(:button_text, "add to cart") %>
 <div class="container">
+  <%= will_paginate  %>
   <table class="table table-striped">
+    <div class="row">
     <% if logged_in? && @current_user.admin? %>
       <%= link_to 'New Product', new_product_path %>
     <% end %>
+    </div>
     <% @products.each do |product| %>
       <tr> 
         <td><%= link_to image_tag(product.img_url,class: 'image'), product %></td>
@@ -32,5 +35,6 @@
       </tr>
     <% end %>
   </table>
+  <%= will_paginate  %>
 </div>
 

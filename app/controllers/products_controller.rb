@@ -3,7 +3,7 @@ class ProductsController < ApplicationController
   before_action :admin_user, except: [:show, :index]
 
   def index
-    @products = Product.all
+    @products = Product.paginate(page: params[:page])
   end
 
   def show
@@ -19,29 +19,21 @@ class ProductsController < ApplicationController
 
   def update
     @product = Product.find params[:id]
-    respond_to do |u|
-      if @product.update(prd_params)
-        u.html {redirect_to @product, notice: 'Product was updated.'}
-        u.json {render :show, status: :ok, location: @product}
-      else
-        flash.now[:error] = "Product was failed to update."
-        u.html {render :edit}
-        u.json {render json: @product.errors, status: :unprocessable_entity }
-      end
+    if @product.update(prd_params)
+      redirect_to @product, notice: 'Product was updated.'
+    else
+      flash.now[:error] = "Product was failed to update."
+      render :edit
     end
   end
 
   def create 
     @product = Product.new(prd_params)
-    respond_to do |c|
-      if @product.save
-        c.html {redirect_to @product, notice: 'Product has successfully created.'}
-        c.json {render :show, status: created, location: @product}
-      else
-        flash.now[:error] = "Error in creating the product."
-        c.html {render :new} 
-        c.json {render json: @product.errors, status: :unproccessable_entity}
-      end
+    if @product.save
+      redirect_to @product, notice: 'Product has successfully created.'
+    else
+      flash.now[:error] = "Error in creating the product."
+      render :new
     end
   end
 

@@ -14,11 +14,14 @@ class CartsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "Cart is always there" do
+  test "Cart is always there no matter what *(in development or test only)" do
     log_in_as @user
     assert session[:cart_id].present?
     delete bye_url
     get products_url
+    assert session[:cart_id].present?
+    Cart.destroy_all
+    get root_url
     assert session[:cart_id].present?
   end
 

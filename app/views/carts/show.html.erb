@@ -8,10 +8,13 @@
           <%= image_tag(item.product.img_url, class: 'display')  %>
         </div>
         <div class="col-md-7">
-          <%= form_for (item), method: :patch do |f| %>
-            <%= f.hidden_field :product_id, value: item.product.id  %>
-            <%= f.number_field :add_quantity, value: item.quantity, class: 'form-control'  %>
-            <%= f.submit "Quantity", class: "btn btn-primary"  %>
+          <%= simple_form_for item, method: :patch, defaults: { input_html: { class: 'form-control'}} do |f| %>
+            <%= f.input :product_id, as: :hidden, input_html: {value: item.product.id}  %>
+            <%= f.input :add_quantity, label: false,  wrapper: :vertical_input_group do %>
+              <span class="input-group-addon"><span class='glyphicon glyphicon-shopping-cart'></span></span>
+              <%= f.input_field :add_quantity, value: item.quantity %>
+            <% end %>
+            <%= f.button :submit, 'Update', class: 'btn btn-primary' %>
           <% end %>
           <h6> <%= item.quantity  %> x <%= number_to_currency(item.product.price)%> = <%= number_to_currency(item.total_price)  %></h6>
           <%= button_to "Remove item", line_item_path(item), method: :delete, class: "btn" %>

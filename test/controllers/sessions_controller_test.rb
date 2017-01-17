@@ -4,7 +4,6 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
 
   def setup
     @user = create(:user)
-    @cart = create(:cart, :without_user)
   end
 
   test "should get new" do
@@ -15,6 +14,7 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
   test "should be able to create new session" do
     log_in_as @user
     follow_redirect!
+    assert_select 'div.alert', 'Welcome back, didi'
     assert_select 'h1', "Diota Tanara's Page"
     assert session[:user_id] == @user.id
   end
@@ -35,4 +35,9 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
     assert session[:user_id] == nil
   end
 
+  test "cart should be connected to user when log in" do
+    log_in_as @user
+    follow_redirect!
+    assert Cart.find(session[:cart_id]).user_id == @user.id
+  end
 end

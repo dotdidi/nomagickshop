@@ -6,8 +6,6 @@ class ProductsControllerTest < ActionDispatch::IntegrationTest
     @line_item = create(:line_item, :without_user)
     @product = @line_item.product
     @cart = @line_item.cart
-
-    # list_items = create_list(:line_item, 3, cart: @cart, product: @product)
     @prodel = create(:product)
   end
 
@@ -31,6 +29,12 @@ class ProductsControllerTest < ActionDispatch::IntegrationTest
   test "should get show" do
     get products_url(@product)
     assert_response :success, "Show can not be accessed"
+  end
+
+  test "should be able to get new" do
+    log_in_as @user
+    get new_product_url
+    assert_response :success
   end
 
   test "should be able to create a Product" do
