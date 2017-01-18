@@ -27,9 +27,11 @@ class OrdersController < ApplicationController
     @order = Order.new(order_params)
     @order.user_id = @current_user.id if @current_user.present?
     if @order.save
-      cut_line_items
       flash[:success] = "You order have been recieved"
-      redirect_to order_url(@order)
+      cut_line_items_and_redirect
+    else
+      flash.now[:error] = "Your order contains error"
+      render 'new'
     end
   end
 
@@ -45,12 +47,13 @@ class OrdersController < ApplicationController
 
   private
 
-  def cut_line_items
+  def cut_line_items_and_redirect
     @current_cart.line_items.each do |cart_item|
       cart_item.order_id = @order.id
       cart_item.save
     end
     session.delete(:cart_id)
+    redirect_to order_url(@order)
   end
 
   def destroy_own_order

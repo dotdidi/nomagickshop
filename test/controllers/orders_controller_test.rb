@@ -72,6 +72,13 @@ class OrdersControllerTest < ActionDispatch::IntegrationTest
     assert_select 'div.alert', 'The Cart is Empty'
   end
 
+  test "should not be able to create without required params" do
+    assert_difference('Order.count', 0) do
+      post orders_url, params:{order: attributes_for(:order, name: ' ')}
+    end
+    assert_select 'div.alert', 'Your order contains error'
+  end
+
   test "should be able to delete/cancel the order" do
     assert_difference('Order.count', -1) do
       log_in_as(@user)

@@ -3,7 +3,8 @@ class ProductsController < ApplicationController
   before_action :admin_user, except: [:show, :index]
 
   def index
-    @products = Product.paginate(page: params[:page])
+    @search = Product.ransack(params[:q])
+    @products = @search.result.paginate(page: params[:page])
   end
 
   def show

@@ -1,7 +1,28 @@
 <% provide(:title, "Showcase") %>
 <% provide(:button_text, "add to cart") %>
 <div class="container">
-  <%= will_paginate  %>
+  <div class="dropdown col-xs-2">
+    <a href='#' class="dropdown-toggle" data-toggle= "dropdown">Search<b class="caret"></b></a>
+    <ul class="dropdown-menu">
+      <li><%= render 'search'  %></li>
+    </ul>
+  </div>
+  <div class="col-md-offset-9">
+    <ul class="horizontal">
+      <li>
+        <%= sort_link(@search, :title)  %>
+      </li>
+      <li>
+        <%= sort_link(@search, :price)  %>
+      </li>
+      <li>
+        <%= link_to "Clear sort", root_url  %>
+      </li>
+    </ul>
+  </div>
+  <div class="col-md-offset-0">
+    <%= will_paginate  %>
+  </div>
   <table class="table table-striped">
     <div class="row">
     <% if logged_in? && @current_user.admin? %>
@@ -35,6 +56,5 @@
       </tr>
     <% end %>
   </table>
-  <%= will_paginate  %>
 </div>
 

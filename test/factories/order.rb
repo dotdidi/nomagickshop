@@ -5,18 +5,18 @@ FactoryGirl.define do
     name      {Faker::Name.unique.name}
     email     {"#{Faker::Internet.unique.email}".underscore}
     address   {Faker::Address.street_address}
-    pay_type  'credit_card'
+    pay_type  'Credit'
 
-    trait :debit_card do
-      pay_type  'debit_card'
+    trait :transfer do
+      pay_type  'Transfer'
     end
 
     trait :cash do
-      pay_type  'cash_on_delivery'
+      pay_type  'Cash'
     end
 
     trait :paypal do
-      pay_type  'paypal'
+      pay_type  'PayPal'
     end
 
     trait :with_user do

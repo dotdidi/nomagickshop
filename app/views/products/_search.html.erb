@@ -1,0 +1,19 @@
+<%= search_form_for @search, defaults: {wrapper: :vertical_input_group, label: false, input_html: {class: 'form-control'}} do |f| %>
+  <%= f.input :tittle_cont do  %>
+    <span class="input-group-addon"><span class='glyphicon glyphicon-font'></span></span>
+    <%= f.input_field :title_cont, placeholder: 'Title' %>
+  <% end  %>
+  <%= f.input :desc_start do %>
+    <span class="input-group-addon"><span class='glyphicon glyphicon-comment'></span></span>
+    <%= f.input_field :desc_start, placeholder: 'Description'  %>
+  <% end %>
+  <%= f.input :price_gteq do  %>
+    <span class="input-group-addon"><span class='glyphicon glyphicon-usd'></span></span>
+    <%= f.input_field :price_gteq, placeholder: 'Price more than'  %>
+  <% end %>
+  <%= f.input :price_lteq do  %>
+    <span class="input-group-addon"><span class='glyphicon glyphicon-usd'></span></span>
+    <%= f.input_field :price_lteq, placeholder: 'Price less than'  %>
+  <% end %>
+  <%= f.button :submit, class: 'btn btn-primary' %>
+<% end %>
