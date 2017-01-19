@@ -33,6 +33,9 @@ gem 'coffee-rails', '~> 4.2'
 gem 'simple_form'
 # for search and filter
 gem 'ransack'
+# for constant repetitive jobs
+gem 'daemons'
+gem 'delayed_job_active_record'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
 

@@ -10,6 +10,10 @@ class Order < ApplicationRecord
   validates :address, presence: true
   validate :pay_type_is_correct
 
+  def ship_the_order
+    update_attribute(:shipped, true)
+  end
+
   private
 
   def pay_type_is_correct

@@ -6,6 +6,7 @@ FactoryGirl.define do
     email     {"#{Faker::Internet.unique.email}".underscore}
     address   {Faker::Address.street_address}
     pay_type  'Credit'
+    shipped   false
 
     trait :transfer do
       pay_type  'Transfer'

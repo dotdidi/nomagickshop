@@ -58,3 +58,14 @@ User.create!(username: "jane",
              address: "Under the sea",
              phone: "9991234"
             )
+
+# Orders
+
+Order.create!(name: "Jane Doe",
+              email: "jane@nomagickshop.com",
+              address: "Under the sea",
+              pay_type: "Transfer",
+              created_at: 3.weeks.ago,
+              updated_at: 3.weeks.ago,
+              user_id: 2
+             )

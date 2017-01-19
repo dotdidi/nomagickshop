@@ -5,9 +5,9 @@ class OrdersControllerTest < ActionDispatch::IntegrationTest
     get root_url
     @cart = Cart.find(session[:cart_id])
     @line_item = create(:line_item, cart: @cart)
-    @order_without_user = create(:order)
-    @older_order_with_user = create(:order, :ten_months_ago, user: @user)
+    @order_without_user = create(:order, user: nil)
     @user = create(:user)
+    @older_order_with_user = create(:order, shipped: true, user: @user)
     @order = create(:order, :paypal, user: @user)
     @other_user = create(:user, :random)
   end
@@ -90,6 +90,25 @@ class OrdersControllerTest < ActionDispatch::IntegrationTest
     assert_select 'div.alert', 'Your order history has been deleted'
   end
 
+  test "should not be able to delete other user's order" do
+    assert_difference('Order.count', 0) do
+      log_in_as(@other_user)
+      delete order_url(@order)
+    end
+    assert_response :redirect
+    follow_redirect!
+    assert_select 'div.alert', "Error in accessing history"
+  end
+
+  test "should not be able to delete without log in" do
+    assert_difference('Order.count', 0) do
+      delete order_url(@order_without_user)
+    end
+    assert_response :redirect
+    follow_redirect!
+    assert_select 'div.alert', 'Error in accessing history'
+  end
+
   test "should not be able to delete the shipped order" do
     assert_difference('Order.count', 0) do
       log_in_as(@user)
@@ -100,30 +119,15 @@ class OrdersControllerTest < ActionDispatch::IntegrationTest
     assert_select 'div.alert', 'Order has been shipped'
   end
 
-  test "should not be able to delete other user's order" do
-    assert_difference('Order.count', 0) do
-      log_in_as(@other_user)
-      delete order_url(@order)
-    end
-    assert_response :redirect
-    follow_redirect!
-    assert_select 'div.alert', "Error in deleting history"
-  end
-
-  test "should not be able to delete without any account" do
-    assert_difference('Order.count', 0) do
-      delete order_url(@order_without_user)
-    end
-    assert_response :redirect
-    follow_redirect!
-    assert_select 'div.alert', 'You need to have an account 1st'
-  end
-
   test "should be able to see order status" do
     get order_url(@order)
     assert_select 'h1', 'Pending'
-    get order_url(@older_order_with_user)
-    assert_select 'h1', 'Shipped'
+  end
+
+  test "delayed jobs should be deployed" do
+    assert_difference('Delayed::Job.count') do
+    post orders_url, params:{order: attributes_for(:order)}
+    end
   end
 
   test "should destroy cart after create new order" do

@@ -1,6 +1,7 @@
 class OrdersController < ApplicationController
   before_action :ensure_has_line_items, only: [:new, :create]
   before_action :set_order_up, except: [:new, :create]
+  before_action :ensure_own_user, only: :destroy
   before_action :ensure_has_shipped, only: :destroy
 
 
@@ -29,6 +30,7 @@ class OrdersController < ApplicationController
     if @order.save
       flash[:success] = "You order have been recieved"
       cut_line_items_and_redirect
+      @order.delay(run_at: 1.weeks.from_now).ship_the_order
     else
       flash.now[:error] = "Your order contains error"
       render 'new'
@@ -36,13 +38,9 @@ class OrdersController < ApplicationController
   end
 
   def destroy
-    if @current_user.present?
-      destroy_own_order
-      redirect_to user_url(@current_user)
-    else
-      flash[:error] = "You need to have an account 1st"
-      redirect_to welcome_url
-    end
+    @order.destroy
+    flash[:success] = "Your order history has been deleted"
+    redirect_to @current_user
   end
 
   private
@@ -56,20 +54,8 @@ class OrdersController < ApplicationController
     redirect_to order_url(@order)
   end
 
-  def destroy_own_order
-    if @current_user.id == @order.user_id and @order.destroy
-      flash[:success] = "Your order history has been deleted"
-    else
-      flash[:error] = "Error in deleting history"
-    end
-  end
-
   def set_order_up
     @order = Order.find(params[:id])
-    if @order.created_at <= 1.weeks.ago
-      @order.shipped = true
-      @order.save
-    end
   end
 
   def order_params
@@ -87,6 +73,13 @@ class OrdersController < ApplicationController
     if @order.shipped == true
       flash[:error] = "Order has been shipped"
       redirect_to order_url(@order)
+    end
+  end
+
+  def ensure_own_user
+    unless @current_user.present? && @current_user.id == @order.user_id
+      flash[:error] = "Error in accessing history"
+      redirect_to root_url
     end
   end
 
