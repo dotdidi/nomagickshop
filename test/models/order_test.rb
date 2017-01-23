@@ -9,8 +9,8 @@ class OrderTest < ActiveSupport::TestCase
     assert @order.valid?
   end
 
-  test "name should be present" do
-    @order.name = " "
+  test "first_name should be present" do
+    @order.first_name = " "
     assert_not @order.valid?
   end
 

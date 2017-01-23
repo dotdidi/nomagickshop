@@ -9,7 +9,8 @@ class OrdersController < ApplicationController
     if session[:user_id].present?
       # make order with user data
       @order = Order.new({
-        name: @current_user.realname,
+        first_name: @current_user.realname.split(' ',2).first,
+        last_name: @current_user.realname.split(' ',2).last,
         email: @current_user.email,
         address: @current_user.address
       })
@@ -50,8 +51,11 @@ class OrdersController < ApplicationController
       cart_item.order_id = @order.id
       cart_item.save
     end
-    session.delete(:cart_id)
-    redirect_to order_url(@order)
+    if @order.pay_type = "Credit"
+      redirect_to new_transaction_url
+    else
+      redirect_to @order
+    end
   end
 
   def set_order_up
@@ -59,7 +63,7 @@ class OrdersController < ApplicationController
   end
 
   def order_params
-    params.require(:order).permit(:name, :email, :address, :pay_type)
+    params.require(:order).permit(:first_name, :last_name, :email, :address, :ip_address, :pay_type)
   end
 
   def ensure_has_line_items

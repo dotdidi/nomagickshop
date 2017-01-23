@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170118041744) do
+ActiveRecord::Schema.define(version: 20170120070544) do
 
   create_table "carts", force: :cascade do |t|
     t.integer  "user_id"
@@ -47,14 +47,16 @@ ActiveRecord::Schema.define(version: 20170118041744) do
   end
 
   create_table "orders", force: :cascade do |t|
-    t.string   "name"
+    t.string   "first_name"
     t.text     "address"
     t.string   "email"
     t.string   "pay_type"
     t.integer  "user_id"
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
-    t.boolean  "shipped",    default: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.boolean  "shipped",      default: false
+    t.string   "last_name"
+    t.datetime "purchased_at"
     t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
@@ -65,6 +67,22 @@ ActiveRecord::Schema.define(version: 20170118041744) do
     t.decimal  "price",      precision: 8, scale: 2
     t.datetime "created_at",                         null: false
     t.datetime "updated_at",                         null: false
+  end
+
+  create_table "transactions", force: :cascade do |t|
+    t.string   "action"
+    t.integer  "amount"
+    t.boolean  "success"
+    t.string   "authorization"
+    t.string   "message"
+    t.text     "params"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.integer  "order_id"
+    t.string   "card_type"
+    t.date     "card_expires_on"
+    t.string   "ip_address"
+    t.index ["order_id"], name: "index_transactions_on_order_id"
   end
 
   create_table "users", force: :cascade do |t|

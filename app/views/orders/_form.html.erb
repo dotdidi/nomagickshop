@@ -1,9 +1,13 @@
 <div class="col-md-12">
   <%= simple_form_for @order, defaults: {input_html: {class: 'form-control'}} do |f|  %>
     <%= render 'layouts/errormsg', x:@order  %>
-    <%= f.input :name, wrapper: :vertical_input_group do  %>
+    <%= f.input :first_name, wrapper: :vertical_input_group do  %>
       <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-      <%= f.input_field :name, value: @order.name %>
+      <%= f.input_field :first_name, value: @order.first_name %>
+    <% end %>
+    <%= f.input :last_name, wrapper: :vertical_input_group do  %>
+      <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+      <%= f.input_field :last_name, value: @order.last_name  %>
     <% end %>
     <%= f.input :email, wrapper: :vertical_input_group do  %>
       <span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span></span>

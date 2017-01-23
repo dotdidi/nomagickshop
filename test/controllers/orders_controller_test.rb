@@ -39,26 +39,15 @@ class OrdersControllerTest < ActionDispatch::IntegrationTest
       assert_includes response.body,"#{a.product.img_url}", 'Image Url'
       assert_includes response.body,"#{a.product.price.to_s}", 'Price'
     end
-
-    assert_difference('Order.count') do
-      post orders_url, params:{order: attributes_for(:order)}
-      assert_response :redirect
-    end
-    follow_redirect!
-    @cart.line_items.each do |a|
-      assert_match a.product.title, response.body
-      assert_includes response.body, a.product.img_url
-      assert_includes response.body, a.product.price.to_s
-    end
   end
 
   test "should be able to import information from user" do
     log_in_as(@user)
     get new_order_url
-    assert_includes response.body, @user.realname
+    assert_includes response.body, @user.realname.split(' ',2).first
     assert_match @user.email, response.body
     assert_match @user.address, response.body
-    assert_select 'form input#order_name[value=?]', @user.realname
+    assert_select 'form input#order_first_name[value=?]', @user.realname.split(' ',2).first
     assert_select 'form input#order_email[value=?]', @user.email
     assert_select 'form textarea#order_address', @user.address
   end
@@ -74,7 +63,7 @@ class OrdersControllerTest < ActionDispatch::IntegrationTest
 
   test "should not be able to create without required params" do
     assert_difference('Order.count', 0) do
-      post orders_url, params:{order: attributes_for(:order, name: ' ')}
+      post orders_url, params:{order: attributes_for(:order, first_name: ' ')}
     end
     assert_select 'div.alert', 'Your order contains error'
   end
@@ -126,13 +115,8 @@ class OrdersControllerTest < ActionDispatch::IntegrationTest
 
   test "delayed jobs should be deployed" do
     assert_difference('Delayed::Job.count') do
-    post orders_url, params:{order: attributes_for(:order)}
+      post orders_url, params:{order: attributes_for(:order)}
     end
-  end
-
-  test "should destroy cart after create new order" do
-    post orders_url, params:{order: attributes_for(:order)}
-    assert session[:cart_id].nil?
   end
 
 end

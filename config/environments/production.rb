@@ -1,6 +1,16 @@
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
+  config.after_initialize do
+    ActiveMerchant::Billing::Base.mode = :production
+    ::GATEWAY = ActiveMerchant::Billing::PaypalGateway.new(
+      :login => "
+      store-pp-sandbox_api1.qbasistech.com",
+      :password => "CLQAJREDZ6X6XQPH",
+      :signature => "AFcWxV21C7fd0v3bYYYRCpSSRl31AKGcGJIfmCRg8i7U-7w6hu-en4n9"
+    )
+  end
+
   # Code is not reloaded between requests.
   config.cache_classes = true
 

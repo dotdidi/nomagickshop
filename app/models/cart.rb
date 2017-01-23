@@ -1,6 +1,7 @@
 class Cart < ApplicationRecord
   has_many :line_items
   has_many :products, through: :line_items
+  has_one :order
   belongs_to :user, optional: true
   accepts_nested_attributes_for :line_items
 

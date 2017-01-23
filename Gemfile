@@ -36,6 +36,8 @@ gem 'ransack'
 # for constant repetitive jobs
 gem 'daemons'
 gem 'delayed_job_active_record'
+# for credit card payment
+gem 'activemerchant'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
 

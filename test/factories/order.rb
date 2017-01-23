@@ -2,11 +2,12 @@ require 'faker'
 
 FactoryGirl.define do
   factory :order do
-    name      {Faker::Name.unique.name}
-    email     {"#{Faker::Internet.unique.email}".underscore}
-    address   {Faker::Address.street_address}
-    pay_type  'Credit'
-    shipped   false
+    first_name  {"#{Faker::Name.unique.name}".split(' ',2).first}
+    last_name   {"#{Faker::Name.unique.name}".split(' ',2).last}
+    email       {"#{Faker::Internet.unique.email}".underscore}
+    address     {Faker::Address.street_address}
+    pay_type    'Credit'
+    shipped     false
 
     trait :transfer do
       pay_type  'Transfer'
