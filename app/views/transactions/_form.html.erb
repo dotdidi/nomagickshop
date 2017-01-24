@@ -1,8 +1,16 @@
-<%= simple_form_for @transaction do |f| %>
+<%= simple_form_for @transaction, defaults: {input_html: {class: 'form-control'}} do |f| %>
   <%= render 'layouts/errormsg', x:@transaction  %>
-  <%= f.input :card_type  %>
-  <%= f.input :card_number  %>
-  <%= f.input :card_verification  %>
-  <%= f.input :card_expires_on, as: :date  %>
+  <%= f.input :card_type do  %>
+    <%= f.input_field :card_type, collection: ["Visa", "Master", "Amex"] %>
+  <% end %>
+
+  <%= f.input :card_number do %>
+    <%= f.input_field :card_number, as: :integer, maxlength: 16, minlength: 16 %>
+  <% end %>
+
+  <%= f.input :card_verification do  %>
+    <%= f.input_field :card_verification, as: :integer, maxlength: 3, minlength:3  %>
+  <% end %>
+  <%= f.input :card_expires_on, as: :date, discard_day: true %>
   <%= f.button :submit  %>
 <% end %>

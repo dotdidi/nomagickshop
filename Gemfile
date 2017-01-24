@@ -38,6 +38,8 @@ gem 'daemons'
 gem 'delayed_job_active_record'
 # for credit card payment
 gem 'activemerchant'
+# for easy to use interface manager
+gem 'rails_admin'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
 
